@@ -1,6 +1,5 @@
 """
-Given an array of n integers, are there elements a, b, .. , n in nums
-such that a + b + .. + n = target?
+Given an array of n integers, are there elements a, b, .. , n in nums such that a + b + .. + n = target?
 
 Find all unique n-tuplets in the array which gives the sum of target.
 
@@ -30,9 +29,13 @@ Example:
 (TL:DR) because -9 + 4 = -5
 """
 
+from typing import List
 
-def n_sum(n, nums, target, **kv):
+
+def n_sum(n: int, nums: List[object], target: object, **kv):
     """
+    Given an array of `n` integers, are there elements a, b, .. , n in nums such that a + b + .. + n = target?
+
     n: int
     nums: list[object]
     target: object
@@ -45,21 +48,27 @@ def n_sum(n, nums, target, **kv):
     return: list[list[object]]
 
     Note:
-    1. type of sum_closure's return should be same 
-       as type of compare_closure's first param
+    1. type of sum_closure's return should be same as type of compare_closure's first param
     """
 
     def sum_closure_default(a, b):
         return a + b
 
     def compare_closure_default(num, target):
-        """ above, below, or right on? """
+        """
+        compare `num` and `target:`
+        returns:
+          - -1: below
+          - 0: right on?
+          - 1: above
+        """
         if num < target:
             return -1
-        elif num > target:
+
+        if num > target:
             return 1
-        else:
-            return 0
+
+        return 0
 
     def same_closure_default(a, b):
         return a == b
@@ -71,8 +80,7 @@ def n_sum(n, nums, target, **kv):
             results = []
             prev_num = None
             for index, num in enumerate(nums):
-                if prev_num is not None and \
-                   same_closure(prev_num, num):
+                if prev_num is not None and same_closure(prev_num, num):
                     continue
 
                 prev_num = num
@@ -81,12 +89,10 @@ def n_sum(n, nums, target, **kv):
                         n - 1,                  # a
                         nums[index + 1:],       # b
                         target - num            # c
-                        )   # x = n_sum( a, b, c )
-                    )   # n_minus1_results = x
+                    )   # x = n_sum( a, b, c )
+                )   # n_minus1_results = x
 
-                n_minus1_results = (
-                    append_elem_to_each_list(num, n_minus1_results)
-                    )
+                n_minus1_results = (append_elem_to_each_list(num, n_minus1_results))
                 results += n_minus1_results
         return union(results)
 
@@ -106,11 +112,9 @@ def n_sum(n, nums, target, **kv):
                 results.append(sorted([nums[lt], nums[rt]]))
                 lt += 1
                 rt -= 1
-                while (lt < len(nums) and
-                       same_closure(nums[lt - 1], nums[lt])):
+                while (lt < len(nums) and same_closure(nums[lt - 1], nums[lt])):
                     lt += 1
-                while (0 <= rt and
-                       same_closure(nums[rt], nums[rt + 1])):
+                while (0 <= rt and same_closure(nums[rt], nums[rt + 1])):
                     rt -= 1
         return results
 

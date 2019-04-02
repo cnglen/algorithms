@@ -1,6 +1,6 @@
 """
-Given an array S of n integers, are there three distinct elements
-a, b, c in S such that a + b + c = 0?
+Given an array S of n integers, are there three distinct elements a, b, c in S such that a + b + c = 0?
+
 Find all unique triplets in the array which gives the sum of zero.
 
 Note: The solution set must not contain duplicate triplets.
@@ -14,14 +14,17 @@ A solution set is:
 }
 """
 
+from typing import List, Tuple, Set
 
-def three_sum(array):
+
+def three_sum(array: List[int]) -> Set[Tuple[int, int, int]]:
     """
-    :param array: List[int]
-    :return: Set[ Tuple[int, int, int] ]
+    >>> s = [-1, 0, 1, 2, -1, -4]
+    >>> three_sum(s)
+    {(-1, -1, 2), (-1, 0, 1)}
     """
     res = set()
-    array.sort()
+    array.sort()                # O(NlgN)
     for i in range(len(array) - 2):
         if i > 0 and array[i] == array[i - 1]:
             continue

@@ -1,9 +1,7 @@
 """
-Given a non-negative number represented as an array of digits,
-adding one to each numeral.
+Given a non-negative number represented as an array of digits, adding one to each numeral.
 
-The digits are stored big-endian, such that the most significant
-digit is at the head of the list.
+The digits are stored big-endian, such that the most significant digit is at the head of the list.
 """
 
 
@@ -15,7 +13,7 @@ def plus_one_v1(digits):
     digits[-1] = digits[-1] + 1
     res = []
     ten = 0
-    i = len(digits)-1
+    i = len(digits) - 1
     while i >= 0 or ten == 1:
         summ = 0
         if i >= 0:
@@ -30,7 +28,7 @@ def plus_one_v1(digits):
 
 def plus_one_v2(digits):
     n = len(digits)
-    for i in range(n-1, -1, -1):
+    for i in range(n - 1, -1, -1):
         if digits[i] < 9:
             digits[i] += 1
             return digits
