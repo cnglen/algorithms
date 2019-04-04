@@ -88,3 +88,7 @@ def analysis():
     t = timeit.timeit(wraped(two_sum, array, target))
 
     print("t(brute_force)={}\nt(using_sort)={}\nt={}".format(t_brute_force, t_using_sort, t))
+
+
+if __name__ == '__main__':
+    analysis()
