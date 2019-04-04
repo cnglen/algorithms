@@ -4,6 +4,7 @@
 
 from typing import List, Tuple
 import timeit
+import numpy as np
 
 
 def two_sum_brute_force(array: List, target: int):
@@ -18,9 +19,10 @@ def two_sum_brute_force(array: List, target: int):
     暴力搜索: O(N^2)
     """
     for i, u in enumerate(array):
-        for j, v in enumerate(array[i + 1:]):
+        offset = i + 1
+        for j, v in enumerate(array[offset:]):
             if u + v == target:
-                return i, j + i + 1
+                return i, j + offset
     return None
 
 
@@ -35,7 +37,9 @@ def two_sum_using_sort(array: List, target: int):
 
     利用排序: O(NlogN)
     """
-    origin_index = sorted(range(len(array)), key=lambda k: array[k])
+
+    # origin_index = sorted(range(len(array)), key=lambda k: array[k])
+    origin_index = list(np.argsort(array))
     sorted_array = [array[i] for i in origin_index]
 
     i = 0
@@ -74,21 +78,29 @@ def two_sum(array: List, target: int) -> Tuple[int, int]:
 
 
 def analysis():
-
+    """
+    analysis of all implementations
+    """
     def wraped(f, *args, **kwargs):
+        """
+        return a callable object for timeit.timeit
+        """
         def wrap():
             return f(*args, **kwargs)
         return wrap
 
-    import numpy as np
-    array = list(np.random.randint(0, 100, 100))
-    target = 128
-    t_brute_force = timeit.timeit(wraped(two_sum_brute_force, array, target))
-    t_using_sort = timeit.timeit(wraped(two_sum_using_sort, array, target))
-    t = timeit.timeit(wraped(two_sum, array, target))
+    N = 10000
+    array = list(np.random.choice(N * 10, N, replace=False))
+    target = 16384
+    run_number = 10
+    t_brute_force = timeit.timeit(wraped(two_sum_brute_force, array, target), number=run_number)
+    t_using_sort = timeit.timeit(wraped(two_sum_using_sort, array, target), number=run_number)
+    t = timeit.timeit(wraped(two_sum, array, target), number=run_number)
 
-    print("t(brute_force)={}\nt(using_sort)={}\nt={}".format(t_brute_force, t_using_sort, t))
+    print("t(brute_force)={}\nt(using_sort )={}\nt(using_hash )={}".format(t_brute_force, t_using_sort, t))
 
 
 if __name__ == '__main__':
+    # import doctest
+    # doctest.testmod()
     analysis()
