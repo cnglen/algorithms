@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-
 from typing import List, Tuple
 import timeit
 import numpy as np
@@ -19,10 +18,9 @@ def two_sum_brute_force(array: List, target: int):
     暴力搜索: O(N^2)
     """
     for i, u in enumerate(array):
-        offset = i + 1
-        for j, v in enumerate(array[offset:]):
-            if u + v == target:
-                return i, j + offset
+        for j, v in enumerate(array):
+            if j > i and u + v == target:
+                return i, j
     return None
 
 
@@ -65,7 +63,7 @@ def two_sum(array: List, target: int) -> Tuple[int, int]:
     >>> two_sum(array=[2, 7, 11, 15], target=9)
     (0, 1)
 
-    利用HashMap: 一次遍历，输出结果, O(N)
+    利用HashMap: 一次遍历，一边存储，一边检查，输出结果, O(N)
     """
     hash_map = {}
     for i, v in enumerate(array):
@@ -97,7 +95,8 @@ def analysis():
     t_using_sort = timeit.timeit(wraped(two_sum_using_sort, array, target), number=run_number)
     t = timeit.timeit(wraped(two_sum, array, target), number=run_number)
 
-    print("t(brute_force)={}\nt(using_sort )={}\nt(using_hash )={}".format(t_brute_force, t_using_sort, t))
+    print("analysis of two_sum")
+    print("t(brute_force)={:.3f}\nt(using_sort )={:.3f}\nt(using_hash )={:.3f}".format(t_brute_force, t_using_sort, t))
 
 
 if __name__ == '__main__':
